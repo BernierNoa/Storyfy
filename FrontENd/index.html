@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storyfy - Créez des histoires uniques</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-gradient {
+            background: linear-gradient(to bottom, #4a5aa7, #673ab7);
+        }
+    </style>
+</head>
+<body class="h-screen bg-gradient text-white">
+
+    <!-- Navigation -->
+    <nav class="bg-[#4a5aa7] p-4 flex justify-between items-center shadow-md">
+        <img src="./img/logo.png" alt="Logo" class="h-16">
+        <div class="space-x-4">
+            <button class="px-4 py-2 bg-[#5c6bc0] rounded-lg hover:bg-[#4a5aa7] transition">Accueil</button>
+            <button class="px-4 py-2 bg-[#5c6bc0] rounded-lg hover:bg-[#4a5aa7] transition">Créer une aventure</button>
+            <button class="px-4 py-2 bg-[#5c6bc0] rounded-lg hover:bg-[#4a5aa7] transition">Mon Compte</button>
+            <button class="px-4 py-2 bg-[#EFBF04] rounded-lg text-black font-bold hover:bg-[#d9a904] transition">Devenir Premium</button>
+        </div>
+    </nav>
+
+    <!-- Section Principale -->
+    <div class="flex flex-col items-center justify-center text-center h-[80vh] px-6">
+        <h1 class="text-5xl font-extrabold">Créez des histoires captivantes en un instant</h1>
+        <p class="mt-4 text-lg text-gray-200 max-w-2xl">
+            Vous avez toujours rêvé d’écrire une histoire mais manquez d’inspiration ? <br>
+            Avec <span class="font-bold text-yellow-300">Storyfy</span>, transformez vos idées en récits incroyables en quelques clics.
+            <br> Sélectionnez un univers, ajoutez vos personnages et laissez l’IA faire le reste. 
+            <br> Découvrez un monde où <strong>chaque histoire est unique</strong> et totalement immersive !
+        </p>
+        <a href="generate.html" class="mt-6 px-6 py-3 bg-[#EFBF04] text-black font-bold rounded-lg text-lg shadow-md hover:bg-[#d9a904] transition">
+            Commencer une aventure
+        </a>
+    </div>
+
+    <!-- Section Avantages -->
+    <div class="bg-white text-gray-900 py-16 px-6">
+        <h2 class="text-center text-4xl font-bold mb-8">Pourquoi choisir Storyfy ?</h2>
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div class="p-6 bg-gray-100 rounded-lg shadow-md text-center">
+                <img src="./img/rapide.png" alt="Rapide" class="h-16 mx-auto mb-4">
+                <h3 class="text-xl font-semibold">Génération Rapide</h3>
+                <p class="mt-2 text-gray-600">Obtenez une histoire complète en quelques secondes grâce à notre IA avancée.</p>
+            </div>
+            <div class="p-6 bg-gray-100 rounded-lg shadow-md text-center">
+                <img src="./img/personnalisation.png" alt="Personnalisé" class="h-16 mx-auto mb-4">
+                <h3 class="text-xl font-semibold">Personnalisation Totale</h3>
+                <p class="mt-2 text-gray-600">Ajoutez vos propres personnages, définissez leur personnalité et choisissez parmi plusieurs univers immersifs.</p>
+            </div>
+            <div class="p-6 bg-gray-100 rounded-lg shadow-md text-center">
+                <img src="./img/unique.png" alt="Gratuit" class="h-16 mx-auto mb-4">
+                <h3 class="text-xl font-semibold">Une Expérience Unique</h3>
+                <p class="mt-2 text-gray-600">Chaque histoire générée est différente, offrant une nouvelle aventure à chaque utilisation.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Call to Action -->
+    <div class="bg-gradient py-16 text-center">
+        <h2 class="text-3xl font-bold">Prêt à écrire votre propre légende ?</h2>
+        <p class="text-lg text-gray-200 mt-2">Laissez-vous surprendre par une IA qui crée des aventures sur-mesure.</p>
+        <div class="mt-6"> <!-- Ajout d'un div pour séparer le bouton -->
+            <a href="generate.html" class="px-6 py-3 bg-[#EFBF04] text-black font-bold rounded-lg text-lg shadow-md hover:bg-[#d9a904] transition">
+                Générer mon histoire
+            </a>
+        </div>
+    </div>
+
+    <!-- Section Version Premium -->
+    <div class="bg-[#1e1e2f] py-16 px-6 text-center text-white">
+        <h2 class="text-4xl font-bold text-yellow-400">🚀 Débloquez l’expérience ultime avec Storyfy Premium !</h2>
+        <p class="mt-4 text-lg max-w-3xl mx-auto text-gray-300">
+            Envie d’aller plus loin ? Avec la version <strong>Premium</strong>, profitez d’une immersion totale et exclusive :
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-8 mt-8 max-w-4xl mx-auto">
+            <div class="p-6 bg-[#282846] rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-yellow-300">🔓 Accès Illimité</h3>
+                <p class="mt-2 text-gray-400">Créez autant d’histoires que vous le souhaitez, sans aucune restriction.</p>
+            </div>
+            <div class="p-6 bg-[#282846] rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-yellow-300">🌎 Univers Exclusifs</h3>
+                <p class="mt-2 text-gray-400">Découvrez des mondes inédits réservés aux membres Premium.</p>
+            </div>
+            <div class="p-6 bg-[#282846] rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-yellow-300">📜 Histoires Plus Longues</h3>
+                <p class="mt-2 text-gray-400">Plongez dans des récits plus détaillés et captivants.</p>
+            </div>
+            <div class="p-6 bg-[#282846] rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-yellow-300">🎥 Histoires en Vidéo</h3>
+                <p class="mt-2 text-gray-400">Regardez vos histoires prendre vie sous forme de vidéos interactives.</p>
+            </div>
+        </div>
+
+        <a href="premium.html" class="mt-6 inline-block px-6 py-3 bg-[#EFBF04] text-black font-bold rounded-lg text-lg shadow-md hover:bg-[#d9a904] transition">
+            Passer à Storyfy Premium
+        </a>
+    </div>
+
+</body>
+</html>
