@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Génération d’Histoire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center">
+
+    <!-- Navbar -->
+    <nav class="bg-[#4a5aa7] p-4 w-full flex justify-between items-center">
+        <img src="../img/logo.png" alt="Logo" class="h-20">
+        <div class="space-x-4">
+            <button class="px-4 py-2 bg-[#5c6bc0] rounded-lg">Accueil</button>
+            <button class="px-4 py-2 bg-[#5c6bc0] rounded-lg">Créer une aventure</button>
+            <button class="px-4 py-2 bg-[#5c6bc0] rounded-lg">Mon Compte</button>
+            <button class="px-4 py-2 bg-[#EFBF04] rounded-lg text-black font-bold">Devenir Premium</button>
+        </div>
+    </nav>
+
+    <!-- Choix de l'univers -->
+    <section class="p-8 text-center w-4/5">
+        <h2 class="text-3xl font-bold mb-6">🌍 Choisissez un Univers</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="relative p-6 bg-gray-800 rounded-lg cursor-pointer universe hover:scale-105 transition" data-universe="Casa de Papel"> 
+                <h3 class="text-xl font-bold">💰 Casa de Papel</h3>
+                <p class="text-sm mt-2">Plongez dans un braquage audacieux où chaque décision compte. Formez votre équipe, évitez les pièges et échappez aux forces de l’ordre !</p>
+            </div>
+            
+            <div class="p-6 bg-gray-800 rounded-lg cursor-pointer universe hover:scale-105 transition" data-universe="Koh Lanta"> 
+                <h3 class="text-xl font-bold">🏝️ Koh Lanta</h3>
+                <p class="text-sm mt-2">Seul ou en équipe, testez vos limites sur une île déserte. Trouvez de la nourriture, gagnez des épreuves et évitez l’élimination au conseil tribal !</p>
+            </div>
+            
+            <div class="relative p-6 bg-gray-800 rounded-lg cursor-pointer universe hover:scale-105 transition" data-universe="Squid Game"> 
+                <span class="absolute top-2 right-2 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded">PREMIUM</span>
+                <h3 class="text-xl font-bold">🦑 Squid Game</h3>
+                <p class="text-sm mt-2">Affrontez d’autres joueurs dans des jeux mortels où chaque erreur coûte la vie. Qui sera assez malin pour survivre jusqu’au bout ?</p>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Ajout des personnages -->
+    <section class="p-8 text-center w-4/5">
+        <h2 class="text-3xl font-bold mb-6">👥 Ajoutez vos Personnages</h2>
+        <button id="add-character" class="px-6 py-3 bg-[#4a5aa7] rounded-lg hover:bg-[#3b4b87] transition">+ Ajouter un personnage</button>
+        <ul id="character-list" class="mt-4 text-left"></ul>
+    </section>
+
+    <!-- Popup d'ajout de personnage -->
+    <div id="character-popup" class="hidden fixed inset-0 bg-gray-900 bg-opacity-95 flex justify-center items-center">
+        <div class="bg-gray-800 p-8 rounded-lg text-white w-96 shadow-lg">
+            <h3 class="text-2xl font-bold mb-4 text-center">📝 Nouveau Personnage</h3>
+            
+            <label for="char-name" class="block text-sm font-semibold mb-1">Nom</label>
+            <input id="char-name" type="text" placeholder="Nom du personnage" 
+                class="border p-3 mb-4 w-full rounded-lg bg-gray-700 text-white placeholder-gray-400">
+            
+            <label for="char-age" class="block text-sm font-semibold mb-1">Âge</label>
+            <input id="char-age" type="number" placeholder="Âge" 
+                class="border p-3 mb-4 w-full rounded-lg bg-gray-700 text-white placeholder-gray-400">
+            
+            <label for="char-desc" class="block text-sm font-semibold mb-1">Caractéristiques</label>
+            <textarea id="char-desc" placeholder="Décrivez votre personnage... (Physique, Personnalités ect...)" rows="4"
+                class="border p-3 mb-6 w-full rounded-lg bg-gray-700 text-white placeholder-gray-400 resize-none"></textarea>
+
+            <div class="flex justify-between">
+                <button id="save-character" class="bg-blue-500 px-5 py-2 rounded-lg text-white font-semibold hover:bg-blue-700 transition">Ajouter</button>
+                <button id="close-popup" class="bg-red-500 px-5 py-2 rounded-lg text-white font-semibold hover:bg-red-700 transition">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Choix de la longueur de l’histoire -->
+    <section class="p-8 text-center w-4/5">
+        <h2 class="text-3xl font-bold mb-6">📖 Choisissez la Longueur</h2>
+        <div class="flex justify-center space-x-4">
+            <button class="px-6 py-3 bg-gray-700 rounded-lg length hover:bg-gray-600 transition" data-length="courte">Courte</button>
+            <button class="px-6 py-3 bg-gray-700 rounded-lg length hover:bg-gray-600 transition" data-length="mi-longue">Mi-longue</button>
+            <button class="px-6 py-3 bg-gray-700 rounded-lg length hover:bg-gray-600 transition" data-length="longue">Longue</button>
+        </div>
+    </section>
+
+    <!-- Bouton de validation -->
+    <div class="p-8 text-center">
+        <button id="generate-story" class="px-6 py-3 bg-yellow-500 text-black font-bold rounded-lg hover:bg-yellow-400 transition">🚀 Générer l’Histoire</button>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

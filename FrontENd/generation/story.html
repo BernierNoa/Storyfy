@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votre Histoire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center p-8">
+    <h1 class="text-3xl font-bold mb-4">Votre Histoire Générée</h1>
+    <p id="loading" class="text-yellow-500 text-center"><strong>⏳ Génération de l’histoire...</strong> </br> La création de l'histoire peut durer plusieurs minutes en fonction de la longueur merci d'attendre sans relancer la page.</p>
+    <div id="story-container" class="bg-gray-800 p-6 rounded-lg shadow-lg max-w-2xl text-white hidden"></div>
+    <button onclick="window.location.href='index.html'" class="mt-4 px-6 py-3 bg-red-500 text-white rounded-lg">Retour</button>
+
+    <script>
+        async function fetchStory() {
+            const storyData = JSON.parse(localStorage.getItem("storyData"));
+            if (!storyData) {
+                document.getElementById("story-container").innerHTML = "<p class='text-red-500'>Aucune donnée trouvée.</p>";
+                return;
+            }
+
+            try {
+                const response = await fetch("http://127.0.0.1:5000/generate_story", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(storyData),
+                });
+
+                if (!response.ok) throw new Error("Erreur lors de la génération de l'histoire");
+
+                const data = await response.json();
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("story-container").innerText = data.story;
+                document.getElementById("story-container").classList.remove("hidden");
+            } catch (error) {
+                document.getElementById("story-container").innerHTML = "<p class='text-red-500'>Erreur lors de la récupération de l'histoire.</p>";
+            }
+        }
+
+        fetchStory();
+    </script>
+</body>
+</html>
