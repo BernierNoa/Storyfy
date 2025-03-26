@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-gradient {
+            background: linear-gradient(to bottom, #4a5aa7, #673ab7);
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC0PMinhg5AJxIMFC2ZzsxGoz_LPsSG-PE",
+            authDomain: "storyfy-bdeab.firebaseapp.com",
+            projectId: "storyfy-bdeab",
+            storageBucket: "storyfy-bdeab.firebasestorage.app",
+            messagingSenderId: "381008287354",
+            appId: "1:381008287354:web:8f4f753af839b0b6f64dc3",
+            measurementId: "G-VY9P0E16DR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore();
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const signupForm = document.getElementById("signup-form");
+            signupForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+                const errorMsg = document.getElementById("error-msg");
+
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+                    await setDoc(doc(db, "Utilisateurs", user.email), {
+                        email: email,
+                        createAt: new Date(),
+                        Credit: 5,
+                        Prenium: false,
+                        StoryCreate: 0
+                    });
+                    alert("Compte créé avec succès !");
+                    window.location.href = "FrontENd\index.html"; 
+                } catch (error) {
+                    errorMsg.textContent = error.message;
+                    errorMsg.classList.remove("hidden");
+                }
+            });
+        });
+    </script>
+</head>
+<body class="bg-gradient text-white flex items-center justify-center h-screen">
+    <div class="bg-gray-800 p-8 rounded-lg shadow-lg max-w-sm w-full">
+        <h2 class="text-2xl font-bold text-center mb-4">Inscription</h2>
+        <form id="signup-form" class="space-y-4">
+            <div>
+                <label for="email" class="block text-sm">Email</label>
+                <input type="email" id="email" required class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500">
+            </div>
+            <div>
+                <label for="password" class="block text-sm">Mot de passe</label>
+                <input type="password" id="password" required class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500">
+            </div>
+            <p id="error-msg" class="text-red-500 text-sm hidden"></p>
+            <button type="submit" class="w-full bg-[#4a5aa7] hover:bg-[#3b4b87] text-white p-2 rounded">S'inscrire</button>
+        </form>
+        <p class="text-center text-sm mt-4">Déjà un compte ? <a href="login.html" class="text-[#4a5aa7] hover:underline">Connecte-toi</a></p>
+    </div>
+</body>
+</html>
