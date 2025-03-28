@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Compte - Storyfy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-gradient {
+            background: linear-gradient(to bottom, #4a5aa7, #673ab7);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between bg-gradient text-white">
+
+    <!-- Navigation -->
+    <nav class="bg-[#4a5aa7] p-4 flex justify-between items-center shadow-md">
+        <img src="../img/logo.png" alt="Logo" class="h-16">
+        <div class="space-x-4">
+            <a href="../index.html"><button class="px-4 py-2 bg-[#5c6bc0] rounded-lg hover:bg-[#4a5aa7] transition">Accueil</button></a>
+            <a href="../generation/index.html"><button class="px-4 py-2 bg-[#5c6bc0] rounded-lg hover:bg-[#4a5aa7] transition">Créer une aventure</button></a>
+            <button id="logout" class="px-4 py-2 bg-red-500 rounded-lg hover:bg-red-700 transition">Déconnexion</button>
+        </div>
+    </nav>
+
+    <!-- Section Profil -->
+    <div class="flex flex-col items-center mt-10 flex-grow">
+        <h1 class="text-3xl font-bold">Mon Profil</h1>
+        <p class="text-gray-200 mt-2">Gérez vos informations personnelles</p>
+
+        <div class="bg-white text-black p-6 rounded-lg shadow-md mt-6 w-96">
+            <label class="block font-bold">Email :</label>
+            <input type="email" id="email" class="w-full border p-2 rounded mt-1 bg-gray-100" disabled>
+
+            <label class="block font-bold mt-4">Crédits Restants :</label>
+            <input type="text" id="credit" class="w-full border p-2 rounded mt-1 bg-gray-100" disabled>
+
+            <label class="block font-bold mt-4">Histoires créées :</label>
+            <input type="text" id="story" class="w-full border p-2 rounded mt-1 bg-gray-100" disabled>
+
+            <label class="block font-bold mt-4">Premium :</label>
+            <input type="text" id="premium" class="w-full border p-2 rounded mt-1 bg-gray-100" disabled>
+        </div>
+    </div>
+
+    <!-- Section Explication des Crédits -->
+    <div class=" py-12 px-6 text-center w-full">
+        <h2 class="text-2xl font-bold text-yellow-300">📜 Fonctionnement des crédits</h2>
+        <p class="mt-4 text-lg text-gray-200 max-w-3xl mx-auto">
+            Chaque utilisateur reçoit des <strong>crédits</strong> qui lui permettent de créer des histoires.
+        </p>
+
+        <div class="mt-6 max-w-3xl mx-auto text-left">
+            <div class="p-4 bg-[#4c5aa0] rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-yellow-400">👤 Utilisateurs non-premium</h3>
+                <p class="mt-2 text-gray-300">
+                    Vous recevez <strong>1 crédit toutes les 48 heures</strong>. Chaque crédit permet de générer une histoire.
+                </p>
+            </div>
+
+            <div class="p-4 bg-[#4c5aa0] rounded-lg shadow-md mt-4">
+                <h3 class="text-xl font-semibold text-yellow-400">🚀 Membres Premium</h3>
+                <p class="mt-2 text-gray-300">
+                    En tant que membre <strong>Premium</strong>, vous bénéficiez de <strong>10 crédits toutes les 24 heures</strong>, vous offrant plus de liberté pour créer vos histoires.
+                </p>
+            </div>
+        </div>
+
+        <p class="mt-6 text-gray-300">Besoin de plus de crédits ? <a href="../premium.html" class="text-yellow-400 underline">Passez à Premium</a> !</p>
+    </div>
+
+    <script type="module" src="compte.js"></script>
+    <script type="module" src="auth.js"></script>
+
+</body>
+</html>
