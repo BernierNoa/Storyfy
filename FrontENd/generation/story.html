@@ -5,14 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Votre Histoire</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-<body class="bg-gray-900 text-white flex flex-col items-center p-8">
-    <h1 class="text-3xl font-bold mb-4">Votre Histoire Générée</h1>
-    <p id="loading" class="text-yellow-500 text-center"><strong>⏳ Génération de l’histoire...</strong> </br> La création de l'histoire peut durer plusieurs minutes en fonction de la longueur merci d'attendre sans relancer la page.</p>
+<body class="bg-gradient-to-b from-gray-900 to-gray-800 text-white flex flex-col items-center p-8 min-h-screen">
+    <!-- Titre -->
+    <h1 class="text-4xl font-extrabold mb-4 text-yellow-400">📖 Votre Histoire Générée</h1>
+    <p id="loading" class="text-yellow-500 text-center text-lg">
+        <strong>⏳ Génération de l’histoire...</strong> <br>
+        Cela peut durer plusieurs minutes. Merci de patienter.
+    </p>
+
+    <!-- Contenu de l'histoire -->
     <div id="story-container" class="bg-gray-800 p-6 rounded-lg shadow-lg max-w-2xl text-white hidden"></div>
-    <button onclick="window.location.href='index.html'" class="mt-4 px-6 py-3 bg-red-500 text-white rounded-lg">Retour</button>
+
+    <!-- Ligne de boutons -->
+    <div class="mt-4 flex space-x-2">
+        <button id="prev-chapter" class="px-6 py-3 bg-gray-500 text-white rounded-lg hidden">⬅️ Chapitre Précédent</button>
+        <button id="next-chapter" class="px-6 py-3 bg-blue-500 text-white rounded-lg hidden">➡️ Chapitre Suivant</button>
+    </div>
+
+    <!-- Boutons Premium -->
+    <div class="mt-4 flex flex-col items-center space-y-4">
+        <button id="get-video" class="px-6 py-3 bg-purple-500 text-white rounded-lg">
+            🎥 Obtenir l'histoire en vidéo (Premium)
+        </button>
+
+        <button id="download-pdf" class="px-6 py-3 bg-green-500 text-white rounded-lg hidden">
+            📄 Télécharger en PDF (Premium)
+        </button>
+    </div>
+
+    <!-- Boutons de partage -->
+    <div class="mt-6 flex space-x-4">
+        <a id="share-x" href="#" target="_blank" class="bg-blue-400 px-4 py-2 rounded-lg">🐦 Partager sur X</a>
+        <a id="share-discord" href="#" target="_blank" class="bg-indigo-600 px-4 py-2 rounded-lg">💬 Partager sur Discord</a>
+        <a id="share-facebook" href="#" target="_blank" class="bg-blue-600 px-4 py-2 rounded-lg">📘 Partager sur Facebook</a>
+        <a id="share-whatsapp" href="#" target="_blank" class="bg-green-600 px-4 py-2 rounded-lg">📱 Partager sur WhatsApp</a>
+    </div>
+
+    <!-- Bouton Retour -->
+    <button onclick="window.location.href='index.html'" class="mt-4 px-6 py-3 bg-red-500 text-white rounded-lg">↩️ Retour</button>
 
     <script>
+        let chapters = [];
+        let currentChapterIndex = 0;
+        const isPremium = true; 
+
         async function fetchStory() {
             const storyData = JSON.parse(localStorage.getItem("storyData"));
             if (!storyData) {
@@ -31,12 +69,108 @@
 
                 const data = await response.json();
                 document.getElementById("loading").style.display = "none";
-                document.getElementById("story-container").innerText = data.story;
-                document.getElementById("story-container").classList.remove("hidden");
+
+                chapters = data.story.split("@").filter(ch => ch.trim() !== "");
+
+                if (chapters.length > 0) {
+                    document.getElementById("story-container").classList.remove("hidden");
+                    document.getElementById("next-chapter").classList.remove("hidden");
+                    showChapter(0);
+                } else {
+                    document.getElementById("story-container").innerHTML = "<p class='text-red-500'>Aucun chapitre trouvé.</p>";
+                }
+
             } catch (error) {
                 document.getElementById("story-container").innerHTML = "<p class='text-red-500'>Erreur lors de la récupération de l'histoire.</p>";
             }
         }
+
+        function showChapter(index) {
+            if (index < 0 || index >= chapters.length) return;
+
+            const container = document.getElementById("story-container");
+            container.innerHTML = ""; 
+
+            const lines = chapters[index].trim().split("\n");
+            const title = lines[0].trim(); 
+            const content = lines.slice(1).join("\n").trim(); 
+
+            const titleElement = document.createElement("h2");
+            titleElement.classList.add("text-2xl", "font-bold", "mb-2", "text-yellow-400");
+            titleElement.innerText = title;
+
+            const contentElement = document.createElement("p");
+            contentElement.classList.add("text-lg", "text-gray-300");
+            contentElement.innerText = content;
+
+            container.appendChild(titleElement);
+            container.appendChild(contentElement);
+
+            document.getElementById("prev-chapter").classList.toggle("hidden", index === 0);
+            document.getElementById("next-chapter").classList.toggle("hidden", index === chapters.length - 1);
+            
+            // Gestion des boutons Premium
+            //document.getElementById("get-video").classList.toggle("hidden", index !== 0);
+            document.getElementById("download-pdf").classList.toggle("hidden", index !== chapters.length - 1);
+        }
+
+        document.getElementById("prev-chapter").addEventListener("click", function() {
+            if (currentChapterIndex > 0) {
+                currentChapterIndex--;
+                showChapter(currentChapterIndex);
+            }
+        });
+
+        document.getElementById("next-chapter").addEventListener("click", function() {
+            if (currentChapterIndex < chapters.length - 1) {
+                currentChapterIndex++;
+                showChapter(currentChapterIndex);
+            }
+        });
+
+        document.getElementById("download-pdf").addEventListener("click", function() {
+            if (!isPremium) {
+                alert("🚀 Le téléchargement en PDF est réservé aux utilisateurs Premium !");
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            let y = 10;
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(18);
+            doc.text("Votre Histoire Générée", 10, y);
+            y += 10;
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(12);
+            chapters.forEach(chapter => {
+                const lines = chapter.trim().split("\n");
+                const title = lines[0].trim();
+                const content = lines.slice(1).join("\n").trim();
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(14);
+                doc.text(title, 10, y);
+                y += 7;
+
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(12);
+                const splitText = doc.splitTextToSize(content, 180);
+                splitText.forEach(line => {
+                    if (y > 280) {
+                        doc.addPage();
+                        y = 10;
+                    }
+                    doc.text(line, 10, y);
+                    y += 6;
+                });
+                y += 10;
+            });
+
+            doc.save("histoire.pdf");
+        });
 
         fetchStory();
     </script>
