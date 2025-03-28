@@ -1,5 +1,4 @@
 import requests
-
 from mistralai import Mistral
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -7,7 +6,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# Clé API (remplace-la par la tienne)
+# Clé API Mistral (remplace par la tienne)
 API_KEY = "53jeC5zHjDAJsOPKz4yE93Z1D55PjFOZ"
 MODEL_NAME = "mistral-large-latest"
 
@@ -30,56 +29,87 @@ def generate_story():
     data = request.get_json()
 
     universe = data.get("universe")
-    length = data.get("length")
+    length = data.get("length")  # "courte", "longue", "géante"
     characters = data.get("characters")
 
     if not universe or not length or not characters:
         return jsonify({"error": "Données manquantes"}), 400
 
+    # Déterminer le nombre de chapitres et de mots par chapitre en fonction de la longueur
+    length_mapping = {
+        "courte": (5, 100),  # 4 chapitres, environ 300 mots par chapitre
+        "longue": (7, 300),  # 7 chapitres, environ 500 mots par chapitre
+        "geante": (10, 500)  # 10 chapitres, environ 800 mots par chapitre
+    }
+
+    if length not in length_mapping:
+        return jsonify({"error": "Longueur invalide"}), 400
+
+    num_chapters, words_per_chapter = length_mapping[length]
+
     # Convertir les personnages en texte
     character_descriptions = "\n".join(
-        [f"- {c['name']} ({c['age']} ans) : {c['desc']}" for c in characters]
+        [f"- {c['name']} ({c['age']} years old): {c['desc']}" for c in characters]
     )
 
-    # Sélectionner le bon prompt en fonction de l’univers
+    # Base du prompt en anglais
+    base_prompt = f"""
+        You are an exceptionally talented storyteller, capable of crafting immersive and unpredictable stories. 
+        Your job is to create a captivating adventure filled with unexpected twists, dramatic events, and breathtaking surprises. 
+        The reader should be constantly engaged, never knowing what will happen next.
+
+        The story must be divided into {num_chapters} chapters.
+        Each chapter must have a unique and intriguing title that starts with "@", followed by an exciting narrative.
+        Each chapter should be approximately {words_per_chapter} words long.
+
+        Here are the main characters:
+        {character_descriptions}
+
+        The story must be rich in emotions, suspense, and dramatic tension. 
+        Introduce plot twists, betrayals, shocking revelations, and situations where nothing is as it seems. 
+        Keep the reader hooked until the very last sentence.
+
+        Make sure the story is well-structured, dynamic, and maintains a high level of intensity.  
+        The entire story must be written in **French**.
+        """
+
+    # Ajouter un contexte spécifique selon l’univers choisi
     if universe == "Koh Lanta" or universe == "🏝️ Koh Lanta":
-        prompt = f"""
-        You are a talented writer, and your role is to create an engaging story in the universe of Koh-Lanta.
-        The story should be approximately {length} words long and include physical challenges, alliances, strategies, and unexpected twists.
-        
-        The main characters are:
-        {character_descriptions}
-
-        The story should be immersive and full of surprises. Be creative and surprise me!
-        Divide the story into chapters, and each chapter title should start with @ to recognize it.
-        Make sure to write the entire story in French.
+        prompt = base_prompt + f"""
+        The story takes place in a remote island survival competition, similar to the TV show Koh-Lanta.
+        It should include physical challenges, alliances, betrayals, and unexpected twists.
+        Describe the trials, the strategies of the competitors, and intense moments of survival.
         """
+
     elif universe == "Casa de Papel" or universe == "💰 Casa de Papel":
-        prompt = f"""
-        You are an expert heist writer, and your role is to create an exciting story in the universe of La Casa de Papel.
-        The story should be approximately {length} words long and include heist strategies, tensions, betrayals, and moments of intense suspense.
-
-        The main characters are:
-        {character_descriptions}
-
-        Describe in detail the planning and execution of the heist with unexpected twists.
-        Divide the story into chapters, and each chapter title should start with @ to recognize it.
-        Make sure to write the entire story in French.
+        prompt = base_prompt + f"""
+        The story is set in the world of La Casa de Papel.
+        It should feature a detailed heist plan, high-stakes strategies, conflicts between characters, and police interventions.
+        Describe the execution of the heist, the emotional tensions, and the unpredictable turns of events.
         """
+
     elif universe == "Squid Game" or universe == "🦑 Squid Game":
-        prompt = f"""
-        You are a thriller writer, and your role is to create a gripping story in the universe of Squid Game.
-        The story should be approximately {length} words long and include deadly games, alliances, betrayals, and moments of extreme tension.
-
-        The main characters are:
-        {character_descriptions}
-
-        Describe each game, the players' strategies, and moments of intense suspense.
-        Divide the story into chapters, and each chapter title should start with @ to recognize it.
-        Make sure to write the entire story in French.
+        prompt = base_prompt + f"""
+        The story takes place in a deadly survival game inspired by Squid Game.
+        It should include various life-threatening challenges, unexpected betrayals, and tense alliances.
+        Describe each game in detail, the psychological struggles of the participants, and the moral dilemmas they face.
         """
+
+    elif universe == "Avengers" or universe == "🦸‍♂️ Avengers":
+        prompt = base_prompt + f"""
+        The story takes place in the Marvel Universe, where the main Avengers characters gain new, unprecedented powers and face unique adventures.
+        It should explore their transformations, the challenges they face with their new abilities, and the unexpected consequences of these powers.
+        Describe the villains they confront, the battles they must fight, and the struggles of adapting to their newfound strengths and responsibilities.
+        """
+    elif universe == "Tana Land" or universe == "💃 Tana Land":
+        prompt = base_prompt + f"""
+        The story is set in Tana Land, a world where the main characters are women who use their beauty and charm to attract men, often with inappropriate or provocative behavior.
+        It should explore their interactions, the power dynamics between the characters, and how their actions affect their relationships and reputation.
+        Describe their seductive strategies, the men they attract, and the tensions that arise from their bold and flirtatious behavior.
+        """
+
     else:
-        return jsonify({"error": "Univers inconnu"}), 400
+        return jsonify({"error": "Unknown universe"}), 400
 
     # Générer l'histoire avec Mistral AI
     story = generate_story_with_ai(prompt)
