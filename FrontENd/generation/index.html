@@ -5,21 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Génération d’Histoire</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
 </head>
-<body class="bg-gray-900 text-white flex flex-col items-center">
+<body class="bg-gray-900 text-white items-center">
 
     <!-- Navbar -->
-    <nav class="bg-[#4a5aa7] p-4 w-full flex justify-between items-center">
-        <img src="../img/logo.png" alt="Logo" class="h-20">
+    <nav class="bg-[#4a5aa7] p-4 flex justify-between items-center shadow-md">
+        <img src="../img/logo.png" alt="Logo" class="h-16">
         <div class="space-x-4">
-            <button class="px-4 py-2 bg-[#5c6bc0] rounded-lg">Accueil</button>
-            <button class="px-4 py-2 bg-[#5c6bc0] rounded-lg">Créer une aventure</button>
-            <button class="px-4 py-2 bg-[#5c6bc0] rounded-lg">Mon Compte</button>
-            <button class="px-4 py-2 bg-[#EFBF04] rounded-lg text-black font-bold">Devenir Premium</button>
+            <button class="px-4 py-2 bg-[#5c6bc0] rounded-lg hover:bg-[#4a5aa7] transition">Accueil</button>
+            <a href ="generation/index.html"><button class="px-4 py-2 bg-[#5c6bc0] rounded-lg hover:bg-[#4a5aa7] transition">Créer une aventure</button></a>
+            <a id="account-link"><button class="px-4 py-2 bg-[#5c6bc0] rounded-lg hover:bg-[#4a5aa7] transition">Mon Compte</button></a>
+            <a href ="./prenium.html"><button class="px-4 py-2 bg-[#EFBF04] rounded-lg text-black font-bold hover:bg-[#d9a904] transition">Devenir Premium</button></a>
         </div>
     </nav>
 
-    <!-- Choix de l'univers -->
+    <div class="bg-gray-900 text-white items-center flex flex-col">
+
+        <!-- Choix de l'univers -->
     <section class="p-8 text-center w-4/5">
         <h2 class="text-3xl font-bold mb-6">🌍 Choisissez un Univers</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -33,21 +36,26 @@
                 <h3 class="text-xl font-bold">🏝️ Koh Lanta</h3>
                 <p class="text-sm mt-2">Seul ou en équipe, testez vos limites sur une île déserte. Trouvez de la nourriture, gagnez des épreuves et évitez l’élimination au conseil tribal !</p>
             </div>
-            
-            <div class="relative p-6 bg-gray-800 rounded-lg cursor-pointer universe hover:scale-105 transition" data-universe="Squid Game"> 
+            <div class="prenium relative p-6 bg-gray-800 rounded-lg cursor-pointer universe hover:scale-105 transition" data-universe="Squid Game"> 
                 <span class="absolute top-2 right-2 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded">PREMIUM</span>
                 <h3 class="text-xl font-bold">🦑 Squid Game</h3>
                 <p class="text-sm mt-2">Affrontez d’autres joueurs dans des jeux mortels où chaque erreur coûte la vie. Qui sera assez malin pour survivre jusqu’au bout ?</p>
             </div>
 
-            <div class="p-6 bg-gray-800 rounded-lg cursor-pointer universe hover:scale-105 transition" data-universe="Avengers"> 
+            <div class="prenium relative p-6 bg-gray-800 rounded-lg cursor-pointer universe hover:scale-105 transition" data-universe="Avengers"> 
+                <span class="absolute top-2 right-2 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded">PREMIUM</span>
                 <h3 class="text-xl font-bold">🦸‍♂️ Avengers</h3>
                 <p class="text-sm mt-2">Rejoignez les Avengers dans une nouvelle ère où chaque héros possède des pouvoirs inédits. Affrontez des ennemis redoutables et découvrez des aventures épiques dans l'univers Marvel !</p>
             </div>            
 
             <div class="p-6 bg-gray-800 rounded-lg cursor-pointer universe hover:scale-105 transition" data-universe="Tana Land"> 
-                <h3 class="text-xl font-bold">💃 Tana Land</h3>
-                <p class="text-sm mt-2">Entrez dans un monde où des femmes séduisantes utilisent leur charme et leur beauté pour manipuler les hommes. Intrigues, séduction et provocations sont au rendez-vous !</p>
+                <h3 class="text-xl font-bold">⚽️ Sportif Professionnel</h3>
+                <p class="text-sm mt-2"></p>
+            </div>
+
+            <div class="p-6 bg-gray-800 rounded-lg cursor-pointer universe hover:scale-105 transition" data-universe="Tana Land"> 
+                <h3 class="text-xl font-bold">⛵️ One Piece</h3>
+                <p class="text-sm mt-2"></p>
             </div>
             
         </div>
@@ -100,8 +108,10 @@
         <button id="generate-story" class="px-6 py-3 bg-yellow-500 text-black font-bold rounded-lg hover:bg-yellow-400 transition">🚀 Générer l’Histoire</button>
     </div>
 
-    <script src="auth.js"></script>
-    <script src="app.js"></script>
+    </div>
+
+    <script type="module" src="../auth.js"></script>
+    <script type="module" src="app.js"></script>
 
 </body>
 </html>
