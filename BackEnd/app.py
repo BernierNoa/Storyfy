@@ -101,11 +101,25 @@ def generate_story():
         It should explore their transformations, the challenges they face with their new abilities, and the unexpected consequences of these powers.
         Describe the villains they confront, the battles they must fight, and the struggles of adapting to their newfound strengths and responsibilities.
         """
-    elif universe == "Tana Land" or universe == "💃 Tana Land":
+
+    elif universe == "Sportif" or universe == "⚽️ Sportif Professionnel":
         prompt = base_prompt + f"""
-        The story is set in Tana Land, a world where the main characters are women who use their beauty and charm to attract men, often with inappropriate or provocative behavior.
-        It should explore their interactions, the power dynamics between the characters, and how their actions affect their relationships and reputation.
-        Describe their seductive strategies, the men they attract, and the tensions that arise from their bold and flirtatious behavior.
+        The story follows a group of athletes striving to make a name for themselves in the world of professional sports.
+        Each character has their own discipline, challenges, and ambitions. 
+        Describe intense training sessions, crucial competitions, and the physical and mental struggles they must overcome.
+        Explore fierce rivalries, sacrifices made for success, and moments of triumph or heartbreaking failure.
+        Add unexpected twists such as injuries, doping scandals, shocking betrayals, or life-changing opportunities.
+        The world of sports is unpredictable—make sure every chapter is filled with excitement and suspense.
+        """
+
+    elif universe == "One Piece" or universe == "⛵️ One Piece":
+        prompt = base_prompt + f"""
+        The story takes place in the world of One Piece, where the characters embark on a grand adventure across the seas.
+        They sail through the unpredictable waters of the Grand Line, facing powerful enemies, legendary treasures, and mysterious islands.
+        Each character plays a crucial role in the crew, contributing their unique skills and ambitions.
+        Describe epic naval battles, intense duels, and encounters with mythical creatures or powerful pirate factions.
+        Introduce twists like betrayals, shocking revelations about the One Piece world, or unexpected alliances with other pirate crews.
+        Keep the reader engaged with non-stop action, emotional depth, and a sense of wonder and discovery.
         """
 
     else:

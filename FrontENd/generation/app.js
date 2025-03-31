@@ -53,8 +53,39 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function showCreditPopup() {
+        const popup = document.createElement("div");
+        popup.innerHTML = `
+            <div class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
+                <div class="bg-gray-800 p-6 rounded-lg text-white w-80 text-center shadow-lg">
+                    <h2 class="text-xl font-bold mb-4">🥺 Vous avez plus de crédit</h2>
+                    <p class="mb-4">Passez prenium pour obtenir plus de crédit.</p>
+                    <a href="../prenium.html">
+                        <button class="bg-yellow-500 px-4 py-2 rounded-lg font-bold text-black hover:bg-yellow-400">Passer Premium</button>
+                    </a>
+                    <button id="close-premium-popup" class="block mt-4 text-gray-300 hover:text-white">Fermer</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(popup);
+
+        // Fermer la pop-up
+        document.getElementById("close-premium-popup").addEventListener("click", () => {
+            popup.remove();
+        });
+    }
+
     // Bloque Squid Game si non-premium
-    document.querySelector('.universe[data-universe="Squid Game"]').addEventListener("click", async (event) => {
+    document.querySelector('.universe[data-universe="Casa de Papel"]').addEventListener("click", async (event) => {
+        const prenium = await isPremium()
+        if (!prenium) {
+            document.querySelectorAll(".universe").forEach(univ => univ.classList.remove("bg-blue-500", "border-4", "border-[#4a5aa7]0"));
+            selectedUniverse = "";
+            showPremiumPopup();
+        }
+    });
+
+    document.querySelector('.universe[data-universe="Sportif"]').addEventListener("click", async (event) => {
         const prenium = await isPremium()
         if (!prenium) {
             document.querySelectorAll(".universe").forEach(univ => univ.classList.remove("bg-blue-500", "border-4", "border-[#4a5aa7]0"));
@@ -143,12 +174,33 @@ document.addEventListener("DOMContentLoaded", () => {
             //alert("Veuillez sélectionner un univers, une longueur et ajouter au moins un personnage.");
             return;
         }
-    
-        // Stocker les données dans le localStorage (pour les récupérer dans story.html)
-        localStorage.setItem("storyData", JSON.stringify({ universe, length, characters }));
-    
-        // Ouvrir une nouvelle page pour afficher l'histoire
-        window.location.href = "story.html";
+
+        const user = auth.currentUser;
+        if (!user) {
+            showLoginPopup();
+            return;
+        }
+
+        const userRef = doc(db, "Utilisateurs", user.email);
+        const userDoc = await getDoc(userRef);
+
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            let currentCredit = userData.Credit || 0;
+
+            if (currentCredit <= 0) {
+                showCreditPopup();
+                return;
+            }
+
+            await updateDoc(userRef, {
+                Credit: currentCredit - 1
+            });
+
+            localStorage.setItem("storyData", JSON.stringify({ universe, length, characters }));
+            window.location.href = "story.html";
+        }
+        
     });
 });
 

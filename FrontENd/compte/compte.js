@@ -19,7 +19,7 @@ onAuthStateChanged(auth, async (user) => {
             emailField.value = user.email;
             creditField.value = userData.Credit || "";
             storyField.value = userData.StoryCreate || "0";
-            if(userData.Prenium == false){
+            if(!userData.Prenium){
                 preniumField.value = "Non";
             }else{
                 preniumField.value = "Oui";
