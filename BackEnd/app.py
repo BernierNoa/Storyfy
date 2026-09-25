@@ -1,13 +1,17 @@
+import os
 import requests
+from dotenv import load_dotenv
 from mistralai import Mistral
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+load_dotenv()
+
 app = Flask(__name__)
 CORS(app)
 
-# Clé API Mistral (remplace par la tienne)
-API_KEY = "53jeC5zHjDAJsOPKz4yE93Z1D55PjFOZ"
+# Clé API Mistral (définie dans le fichier .env, voir .env.example)
+API_KEY = os.environ.get("MISTRAL_API_KEY")
 MODEL_NAME = "mistral-large-latest"
 
 def generate_story_with_ai(prompt):

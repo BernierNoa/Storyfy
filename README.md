@@ -53,6 +53,10 @@ cd storyfy
 ```bash
 cd BackEnd
 pip install -r requirements.txt
+cp .env.example .env
+```
+Edit `.env` and set `MISTRAL_API_KEY` to your own Mistral API key before starting the server:
+```bash
 python app.py
 ```
 The Flask API starts on `http://127.0.0.1:5000` and exposes the `/generate_story` endpoint used by the frontend.
