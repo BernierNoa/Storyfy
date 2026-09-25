@@ -45,5 +45,22 @@ The project is structured into two main components:
 
 ### 1. Clone the repository
 ```bash
-git clone [https://github.com/ton-pseudo/storyfy.git](https://github.com/ton-pseudo/storyfy.git)
+git clone https://github.com/BernierNoa/Storyfy.git
 cd storyfy
+```
+
+### 2. Run the backend
+```bash
+cd BackEnd
+pip install -r requirements.txt
+python app.py
+```
+The Flask API starts on `http://127.0.0.1:5000` and exposes the `/generate_story` endpoint used by the frontend.
+
+### 3. Run the frontend
+```bash
+cd FrontENd
+```
+Open `index.html` in your browser (or serve the folder with a local server, e.g. `python -m http.server` or the VS Code "Live Server" extension). Make sure the backend is running first so the story generation requests succeed.
+
+You can also try the landing page by opening `LandingPage/index.html`, and join the beta via the [sign-up form](https://forms.gle/g8g1FGDaou5iAg8r8) linked from it.
