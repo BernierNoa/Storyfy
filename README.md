@@ -46,7 +46,7 @@ The project is structured into two main components:
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/BernierNoa/Storyfy.git
-cd storyfy
+cd Storyfy
 ```
 
 ### 2. Run the backend
@@ -62,6 +62,7 @@ python app.py
 The Flask API starts on `http://127.0.0.1:5000` and exposes the `/generate_story` endpoint used by the frontend.
 
 ### 3. Run the frontend
+From a second terminal at the repository root:
 ```bash
 cd FrontENd
 ```
